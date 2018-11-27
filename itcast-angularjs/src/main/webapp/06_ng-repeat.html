@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>angularJS测试</title>
+    <script src="js/angular.min.js"></script>
+    <script>
+
+        //1.定义一个模块
+        //2.参数一：模块名称
+        //3.参数二：要加载的其他模块，如果没有则必须为空数组，如果不写任何东西，则表示获取到已注册的模块
+        var app = angular.module("app",[]);
+
+        //1.定义处理器
+        //2.参数一：处理器名称
+        //3.处理器中的方法体，里面可以制定很多不同的方法，$scope是上下文，可以获取双向绑定的任何内容
+        app.controller("MyController",function ($scope) {
+            $scope.numbers = [1,2,3,4,5];
+
+            $scope.persons = [
+                {"id":12 , "name":"1号"},
+                {"id":13 , "name":"2号"},
+                {"id":14 , "name":"3号"}
+            ]
+        }) 
+    </script>
+</head>
+<body ng-app="app" ng-controller="MyController">
+<div ng-repeat="num in numbers">
+    {{num}}<br>
+</div>
+<br>
+<table>
+    <tr>
+        <td>id</td>
+        <td>名称</td>
+    </tr>
+    <tr ng-repeat="p in persons">
+        <td>{{p.id}}</td>
+        <td>{{p.name}}</td>
+    </tr>
+</table>
+</body>
+</html>

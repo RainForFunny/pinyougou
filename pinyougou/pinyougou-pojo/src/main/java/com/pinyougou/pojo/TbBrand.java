@@ -6,6 +6,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import java.io.Serializable;
 
+//对应的数据库表名称tb_brand
+//Serializable接口：以一定的格式传递该对象。
 @Table(name = "tb_brand")
 public class TbBrand implements Serializable {
 
