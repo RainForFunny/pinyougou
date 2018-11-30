@@ -19,6 +19,9 @@ app.controller("itemCatController", function ($scope, $controller, itemCatServic
 
     $scope.save = function () {
         var object;
+        $scope.entity.typeId = $("#typeTemplateId").val();
+
+        $scope.entity.parentId = $scope.parentId;
         if($scope.entity.id != null){//更新
             object = itemCatService.update($scope.entity);
         } else {//新增
