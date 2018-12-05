@@ -19,7 +19,7 @@ public class TbGoods implements Serializable {
 
     private Long defaultItemId;
 
-    private String auditStatus;//0新商品未申请，1申请中，2审核通过，3审核不通过
+    private String auditStatus;//0新商品未审核，1审核中，2审核通过，3审核不通过
 
     private String isMarketable;
 

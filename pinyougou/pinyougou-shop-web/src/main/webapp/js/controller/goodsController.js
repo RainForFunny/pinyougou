@@ -165,7 +165,7 @@ app.controller("goodsController", function ($scope, $controller, $location, good
                 $scope.typeTemplate.brandIds = JSON.parse($scope.typeTemplate.brandIds);
 
                 if ($location.search()["id"] == null) {//编辑的时候；一开始的路径中带有id，但是点击了任何页面中选项卡后则id会被替换
-                    //将分类模板对应的扩张属性设置给商品描述的扩展属性
+                    //将分类模板对应的扩展属性设置给商品描述的扩展属性
                     //商品描述的扩展属性将对应有值，具体结构形如：[{"text":"内存大小","value":"4G"},{"text":"颜色","value":"黑色"}]
                     $scope.entity.goodsDesc.customAttributeItems = JSON.parse($scope.typeTemplate.customAttributeItems);
                 }
@@ -274,4 +274,24 @@ app.controller("goodsController", function ($scope, $controller, $location, good
             });
         }
     };
+
+    //商品上下架
+    $scope.updateismarketable = function(status) {
+        if ($scope.selectedIds.length < 1) {
+            alert("请先选择商品");
+            return;
+        }
+        if (confirm("确定要更新选中的商品状态吗？")) {
+            goodsService.updateismarketable($scope.selectedIds, status).success(function (response) {
+                if (response.success) {
+                    //刷新列表并清空选中的那些商品
+                    $scope.reloadList();
+                    $scope.selectedIds = [];
+                } else {
+                    alert(response.message);
+                }
+            });
+        }
+    }
+
 });

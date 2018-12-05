@@ -29,6 +29,11 @@
     <script src="../js/controller/baseController.js"></script>
     <script src="../js/controller/goodsController.js"></script>
 
+    <script type="text/javascript">
+        function add() {
+            window.location.href="goods_edit.html"
+        }
+    </script>
 </head>
 
 <body ng-app="pinyougou" ng-controller="goodsController" ng-init="findItemCatList()" class="hold-transition skin-red sidebar-mini">
@@ -47,11 +52,11 @@
                             <div class="pull-left">
                                 <div class="form-group form-inline">
                                     <div class="btn-group">
-                                        <button type="button" class="btn btn-default" title="新建" ><i class="fa fa-file-o"></i> 新建</button>
+                                        <button type="button" class="btn btn-default" onclick="add()" title="新建" ><i class="fa fa-file-o"></i> 新建</button>
                                         <button type="button" class="btn btn-default" ng-click="delete()"><i class="fa fa-trash-o"></i> 删除</button>
                                         <button type="button" class="btn btn-default" ng-click="updateStatus('1')"><i class="fa fa-trash-o"></i> 提交审核</button>
-                                        <button type="button" class="btn btn-default" title="上架" ><i class="fa fa-check"></i> 上架</button>
-                                        <button type="button" class="btn btn-default" title="下架" ><i class="fa fa-check"></i> 下架</button>
+                                        <button type="button" class="btn btn-default" ng-click="updateismarketable('1')" title="上架" ><i class="fa fa-check"></i> 上架</button>
+                                        <button type="button" class="btn btn-default" ng-click="updateismarketable('0')" title="下架" ><i class="fa fa-check"></i> 下架</button>
                                         <button type="button" class="btn btn-default" title="刷新" onclick="window.location.reload();"><i class="fa fa-refresh"></i> 刷新</button>
                                     </div>
                                 </div>
