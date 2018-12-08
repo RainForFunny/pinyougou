@@ -1,9 +1,12 @@
 package com.pinyougou.sellergoods.service;
 
 import com.pinyougou.pojo.TbGoods;
+import com.pinyougou.pojo.TbItem;
 import com.pinyougou.service.BaseService;
 import com.pinyougou.vo.Goods;
 import com.pinyougou.vo.PageResult;
+
+import java.util.List;
 
 public interface GoodsService extends BaseService<TbGoods> {
 
@@ -38,4 +41,12 @@ public interface GoodsService extends BaseService<TbGoods> {
      * @param ids 商品SPU id
      */
     void updateMarketableStatus(Long[] ids);
+
+    /**
+     * 根据商品spu id数组查询这些spu对应的已启用的sku列表
+     * @param ids 商品spu id数组
+     * @param status sku的状态
+     * @return sku列表
+     */
+    List<TbItem> findItemListByIdsAndStatus(Long[] ids, String status);
 }

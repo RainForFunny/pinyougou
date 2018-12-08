@@ -133,7 +133,7 @@ public class GoodsServiceImpl extends BaseServiceImpl<TbGoods> implements GoodsS
             TbItem item = new TbItem();
             item.setStatus("1");
             Example itemExample = new Example(TbItem.class);
-            itemExample.createCriteria().andIn("id", Arrays.asList(ids));
+            itemExample.createCriteria().andIn("goodsId", Arrays.asList(ids));
             itemMapper.updateByExampleSelective(item,itemExample);
         }
     }
@@ -157,6 +157,16 @@ public class GoodsServiceImpl extends BaseServiceImpl<TbGoods> implements GoodsS
         Example example = new Example(TbGoods.class);
         example.createCriteria().andIn("id",Arrays.asList(ids));
         goodsMapper.updateByExampleSelective(goods,example);
+    }
+
+    @Override
+    public List<TbItem> findItemListByIdsAndStatus(Long[] ids, String status) {
+        Example example = new Example(TbItem.class);
+        example.createCriteria()
+                .andIn("goodsId", Arrays.asList(ids))
+                .andEqualTo("status", status);
+
+        return itemMapper.selectByExample(example);
     }
 
     /**

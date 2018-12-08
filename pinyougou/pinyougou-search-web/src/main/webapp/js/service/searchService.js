@@ -4,4 +4,8 @@ app.service("searchService",function ($http) {
 
         return $http.post("itemSearch/search.do",searchMap);
     };
+
+    this.addSearchItem = function (key) {
+
+    }
 });

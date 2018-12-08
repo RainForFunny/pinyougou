@@ -2,13 +2,16 @@ package com.pinyougou.manage.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.pinyougou.pojo.TbGoods;
+import com.pinyougou.pojo.TbItem;
 import com.pinyougou.sellergoods.service.GoodsService;
+import com.pinyougou.service.ItemSearchService;
 import com.pinyougou.vo.Goods;
 import com.pinyougou.vo.PageResult;
 import com.pinyougou.vo.Result;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
 import java.util.List;
 
 @RequestMapping("/goods")
@@ -17,6 +20,9 @@ public class GoodsController {
 
     @Reference
     private GoodsService goodsService;
+
+    @Reference
+    private ItemSearchService itemSearchService;
 
     @RequestMapping("/findAll")
     public List<TbGoods> findAll() {
@@ -93,6 +99,7 @@ public class GoodsController {
     public Result delete(Long[] ids) {
         try {
             goodsService.deleteGoodsByIds(ids);
+            itemSearchService.deleteItemByGoodsIdList(Arrays.asList(ids));
             return Result.ok("删除成功");
         } catch (Exception e) {
             e.printStackTrace();
@@ -122,11 +129,24 @@ public class GoodsController {
     @GetMapping("/updateStatus")
     public Result updateStatus(Long[] ids,String status){
         try {
+            System.out.println("ids1 : " + ids.toString() + " ,  status : " + status);
             goodsService.updateStatus(ids,status);
+            System.out.println("ids2 : " + ids.toString() + " ,  status : " + status);
+            if ("2".equals(status)) {
+                //审核通过更新搜索系统数据
+                //根据商品spu id数组查询这些spu对应的已启用的sku列表
+                List<TbItem> itemList = goodsService.findItemListByIdsAndStatus(ids,"1");
+
+                System.out.println("itemList : ------------------ " + itemList);
+                //更新搜索系统数据
+                itemSearchService.importItemList(itemList);
+            }
             return Result.ok("审核通过");
         } catch (Exception e) {
             e.printStackTrace();
         }
         return Result.fail("更新商品状态失败");
     }
+
+
 }
