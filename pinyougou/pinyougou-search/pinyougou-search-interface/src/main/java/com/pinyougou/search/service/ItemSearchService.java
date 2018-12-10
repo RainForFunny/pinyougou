@@ -1,4 +1,4 @@
-package com.pinyougou.service;
+package com.pinyougou.search.service;
 
 import com.pinyougou.pojo.TbItem;
 

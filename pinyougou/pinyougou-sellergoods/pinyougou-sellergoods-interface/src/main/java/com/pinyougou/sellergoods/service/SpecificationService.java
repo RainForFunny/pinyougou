@@ -1,9 +1,8 @@
 package com.pinyougou.sellergoods.service;
 
 import com.pinyougou.pojo.TbSpecification;
-import com.pinyougou.service.BaseService;
+import com.pinyougou.search.service.BaseService;
 import com.pinyougou.vo.PageResult;
-import com.pinyougou.vo.Result;
 import com.pinyougou.vo.Specification;
 
 import java.util.List;

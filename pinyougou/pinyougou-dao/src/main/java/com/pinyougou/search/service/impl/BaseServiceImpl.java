@@ -1,8 +1,8 @@
-package com.pinyougou.service.impl;
+package com.pinyougou.search.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.pinyougou.service.BaseService;
+import com.pinyougou.search.service.BaseService;
 import com.pinyougou.vo.PageResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import tk.mybatis.mapper.common.Mapper;

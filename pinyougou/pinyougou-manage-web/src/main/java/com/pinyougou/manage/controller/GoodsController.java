@@ -1,17 +1,22 @@
 package com.pinyougou.manage.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.alibaba.fastjson.JSON;
 import com.pinyougou.pojo.TbGoods;
 import com.pinyougou.pojo.TbItem;
 import com.pinyougou.sellergoods.service.GoodsService;
-import com.pinyougou.service.ItemSearchService;
+import com.pinyougou.search.service.ItemSearchService;
 import com.pinyougou.vo.Goods;
 import com.pinyougou.vo.PageResult;
 import com.pinyougou.vo.Result;
+import org.apache.activemq.command.ActiveMQQueue;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jms.core.JmsTemplate;
+import org.springframework.jms.core.MessageCreator;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
+import javax.jms.*;
 import java.util.List;
 
 @RequestMapping("/goods")
@@ -23,6 +28,16 @@ public class GoodsController {
 
     @Reference
     private ItemSearchService itemSearchService;
+
+    @Autowired
+    private JmsTemplate jmsTemplate;
+
+    @Autowired
+    private ActiveMQQueue solrItemQueue;
+
+    @Autowired
+    private ActiveMQQueue solrItemDeleteQueue;
+
 
     @RequestMapping("/findAll")
     public List<TbGoods> findAll() {
@@ -99,7 +114,15 @@ public class GoodsController {
     public Result delete(Long[] ids) {
         try {
             goodsService.deleteGoodsByIds(ids);
-            itemSearchService.deleteItemByGoodsIdList(Arrays.asList(ids));
+//            itemSearchService.deleteItemByGoodsIdList(Arrays.asList(ids));
+            jmsTemplate.send(solrItemDeleteQueue, new MessageCreator() {
+                @Override
+                public Message createMessage(Session session) throws JMSException {
+                    ObjectMessage objectMessage = session.createObjectMessage();
+                    objectMessage.setObject(ids);
+                    return objectMessage;
+                }
+            });
             return Result.ok("删除成功");
         } catch (Exception e) {
             e.printStackTrace();
@@ -137,9 +160,16 @@ public class GoodsController {
                 //根据商品spu id数组查询这些spu对应的已启用的sku列表
                 List<TbItem> itemList = goodsService.findItemListByIdsAndStatus(ids,"1");
 
-                System.out.println("itemList : ------------------ " + itemList);
                 //更新搜索系统数据
-                itemSearchService.importItemList(itemList);
+//                itemSearchService.importItemList(itemList);
+                jmsTemplate.send(solrItemQueue, new MessageCreator() {
+                    @Override
+                    public Message createMessage(Session session) throws JMSException {
+                        TextMessage textMessage = session.createTextMessage();
+                        textMessage.setText(JSON.toJSONString(itemList));
+                        return textMessage;
+                    }
+                });
             }
             return Result.ok("审核通过");
         } catch (Exception e) {
