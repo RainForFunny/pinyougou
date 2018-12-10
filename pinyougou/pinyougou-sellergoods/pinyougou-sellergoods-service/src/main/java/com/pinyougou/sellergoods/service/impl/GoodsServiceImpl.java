@@ -170,6 +170,43 @@ public class GoodsServiceImpl extends BaseServiceImpl<TbGoods> implements GoodsS
     }
 
     /**
+     * 根据商品spu id查询商品基本、描述、sku列表（根据是否默认排序，降序排序），并加载商品1、2、3级商品分类中文名称。
+     * @param goodsId 商品spu id
+     * @param itemStatus 商品sku 状态
+     * @return 商品信息
+     */
+    @Override
+    public Goods findGoodsByIdAndStatus(Long goodsId, String itemStatus) {
+        Goods goods = new Goods();
+        /**
+         * SELECT * FROM tb_goods WHERE id=? ;
+         * SELECT * FROM tb_goods_desc WHERE goods_id=? ;
+         * SELECT * FROM tb_item WHERE goods_id=?;
+         */
+        //1、基本信息
+        goods.setGoods(findOne(goodsId));
+        //2、描述信息
+        goods.setGoodsDesc(goodsDescMapper.selectByPrimaryKey(goodsId));
+        //3、根据spu id 查询sku列表
+        Example example = new Example(TbItem.class);
+        Example.Criteria criteria = example.createCriteria();
+
+        criteria.andEqualTo("goodsId", goodsId);
+
+        if (itemStatus != null) {
+            criteria.andEqualTo("status", itemStatus);
+        }
+
+        //根据是否默认降序排序sku列表
+        example.orderBy("isDefault").desc();
+
+        List<TbItem> itemList = itemMapper.selectByExample(example);
+        goods.setItemList(itemList);
+
+        return goods;
+    }
+
+    /**
      * 保存动态sku列表
      * @param goods 商品信息（基本信息，商品描述，sku列表）
      */
