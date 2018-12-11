@@ -32,5 +32,13 @@
         <constructor-arg value="pinyougou_solr_item_delete_queue"/>
     </bean>
 
+    <!--审核通过同步详情系统的主题 -->
+    <bean id="itemTopic" class="org.apache.activemq.command.ActiveMQTopic">
+        <constructor-arg value="pinyougou_item_topic"/>
+    </bean>
 
+    <!--商品删除同步详情系统的主题 -->
+    <bean id="itemDeleteTopic" class="org.apache.activemq.command.ActiveMQTopic">
+        <constructor-arg value="pinyougou_item_delete_topic"/>
+    </bean>
 </beans>

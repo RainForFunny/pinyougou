@@ -5,11 +5,11 @@ import com.alibaba.fastjson.JSON;
 import com.pinyougou.pojo.TbGoods;
 import com.pinyougou.pojo.TbItem;
 import com.pinyougou.sellergoods.service.GoodsService;
-import com.pinyougou.search.service.ItemSearchService;
 import com.pinyougou.vo.Goods;
 import com.pinyougou.vo.PageResult;
 import com.pinyougou.vo.Result;
 import org.apache.activemq.command.ActiveMQQueue;
+import org.apache.activemq.command.ActiveMQTopic;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.jms.core.MessageCreator;
@@ -26,9 +26,6 @@ public class GoodsController {
     @Reference
     private GoodsService goodsService;
 
-    @Reference
-    private ItemSearchService itemSearchService;
-
     @Autowired
     private JmsTemplate jmsTemplate;
 
@@ -37,6 +34,10 @@ public class GoodsController {
 
     @Autowired
     private ActiveMQQueue solrItemDeleteQueue;
+    @Autowired
+    private ActiveMQTopic itemTopic;
+    @Autowired
+    private ActiveMQTopic itemDeleteTopic;
 
 
     @RequestMapping("/findAll")
@@ -115,19 +116,32 @@ public class GoodsController {
         try {
             goodsService.deleteGoodsByIds(ids);
 //            itemSearchService.deleteItemByGoodsIdList(Arrays.asList(ids));
-            jmsTemplate.send(solrItemDeleteQueue, new MessageCreator() {
-                @Override
-                public Message createMessage(Session session) throws JMSException {
-                    ObjectMessage objectMessage = session.createObjectMessage();
-                    objectMessage.setObject(ids);
-                    return objectMessage;
-                }
-            });
+            //发送MQ消息，更新搜索系统
+            sendMQMsg(solrItemDeleteQueue,ids);
+
+            sendMQMsg(itemDeleteTopic,ids);
             return Result.ok("删除成功");
         } catch (Exception e) {
             e.printStackTrace();
         }
         return Result.fail("删除失败");
+    }
+
+    /**
+     * 发送消息到ActiveMQ
+     * @param destination 模式
+     * @param ids 发送的商品spu id数组
+     * @throws JMSException
+     */
+    private void sendMQMsg(Destination destination, Long[] ids) {
+        jmsTemplate.send(destination, new MessageCreator() {
+            @Override
+            public Message createMessage(Session session) throws JMSException {
+                ObjectMessage objectMessage = session.createObjectMessage();
+                objectMessage.setObject(ids);
+                return objectMessage;
+            }
+        });
     }
 
     /**
@@ -152,9 +166,7 @@ public class GoodsController {
     @GetMapping("/updateStatus")
     public Result updateStatus(Long[] ids,String status){
         try {
-            System.out.println("ids1 : " + ids.toString() + " ,  status : " + status);
             goodsService.updateStatus(ids,status);
-            System.out.println("ids2 : " + ids.toString() + " ,  status : " + status);
             if ("2".equals(status)) {
                 //审核通过更新搜索系统数据
                 //根据商品spu id数组查询这些spu对应的已启用的sku列表
@@ -170,6 +182,9 @@ public class GoodsController {
                         return textMessage;
                     }
                 });
+
+                //更新详情系统的静态页面
+                sendMQMsg(itemTopic,ids);
             }
             return Result.ok("审核通过");
         } catch (Exception e) {
