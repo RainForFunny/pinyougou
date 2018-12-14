@@ -22,6 +22,9 @@
           <file>file://$MODULE_DIR$/src/main/resources/spring/applicationContext-tx.xml</file>
           <file>file://$MODULE_DIR$/src/main/resources/spring/springmvc.xml</file>
         </fileset>
+        <fileset id="fileset2" name="Spring Security" removed="false">
+          <file>file://$MODULE_DIR$/src/main/resources/spring/spring-security.xml</file>
+        </fileset>
       </configuration>
     </facet>
   </component>
@@ -86,5 +89,11 @@
     <orderEntry type="library" name="Maven: com.github.sgroschupf:zkclient:0.1" level="project" />
     <orderEntry type="library" name="Maven: com.alibaba:fastjson:1.2.44" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: javax.servlet:servlet-api:2.5" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework.security:spring-security-web:4.2.3.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: aopalliance:aopalliance:1.0" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework.security:spring-security-core:4.2.3.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework.security:spring-security-config:4.2.3.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework.security:spring-security-cas:4.2.3.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: org.jasig.cas.client:cas-client-core:3.4.1" level="project" />
   </component>
 </module>
