@@ -6,7 +6,7 @@ import com.github.pagehelper.PageInfo;
 import com.pinyougou.mapper.SpecificationOptionMapper;
 import com.pinyougou.pojo.TbSpecificationOption;
 import com.pinyougou.sellergoods.service.SpecificationOptionService;
-import com.pinyougou.search.service.impl.BaseServiceImpl;
+import com.pinyougou.service.impl.BaseServiceImpl;
 import com.pinyougou.vo.PageResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import tk.mybatis.mapper.entity.Example;

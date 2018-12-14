@@ -12,6 +12,10 @@
 
     <groupId>cn.itcast</groupId>
     <artifactId>itcast-freemarker</artifactId>
+    <packaging>pom</packaging>
+    <modules>
+        <module>../itcast-sms</module>
+    </modules>
 
     <dependencies>
         <dependency>

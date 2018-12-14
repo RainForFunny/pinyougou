@@ -2,7 +2,7 @@ package com.pinyougou.search.activemq.listener;
 
 import com.alibaba.fastjson.JSONArray;
 import com.pinyougou.pojo.TbItem;
-import com.pinyougou.search.service.ItemSearchService;
+import com.pinyougou.service.ItemSearchService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.listener.adapter.AbstractAdaptableMessageListener;
 

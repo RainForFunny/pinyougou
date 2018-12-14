@@ -6,7 +6,7 @@ import com.github.pagehelper.PageInfo;
 import com.pinyougou.mapper.ContentMapper;
 import com.pinyougou.pojo.TbContent;
 import com.pinyougou.content.service.ContentService;
-import com.pinyougou.search.service.impl.BaseServiceImpl;
+import com.pinyougou.service.impl.BaseServiceImpl;
 import com.pinyougou.vo.PageResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;

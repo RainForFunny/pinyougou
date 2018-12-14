@@ -6,7 +6,7 @@ import com.github.pagehelper.PageInfo;
 import com.pinyougou.mapper.ContentCategoryMapper;
 import com.pinyougou.pojo.TbContentCategory;
 import com.pinyougou.content.service.ContentCategoryService;
-import com.pinyougou.search.service.impl.BaseServiceImpl;
+import com.pinyougou.service.impl.BaseServiceImpl;
 import com.pinyougou.vo.PageResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;

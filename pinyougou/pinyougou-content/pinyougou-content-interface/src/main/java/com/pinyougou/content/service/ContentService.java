@@ -1,7 +1,7 @@
 package com.pinyougou.content.service;
 
 import com.pinyougou.pojo.TbContent;
-import com.pinyougou.search.service.BaseService;
+import com.pinyougou.service.BaseService;
 import com.pinyougou.vo.PageResult;
 
 import java.util.List;

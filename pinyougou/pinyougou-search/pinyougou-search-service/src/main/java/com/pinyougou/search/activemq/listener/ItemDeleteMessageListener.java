@@ -1,6 +1,6 @@
 package com.pinyougou.search.activemq.listener;
 
-import com.pinyougou.search.service.ItemSearchService;
+import com.pinyougou.service.ItemSearchService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.listener.adapter.AbstractAdaptableMessageListener;
 

@@ -2,7 +2,7 @@ package com.pinyougou.sellergoods.service;
 
 import com.pinyougou.pojo.TbGoods;
 import com.pinyougou.pojo.TbItem;
-import com.pinyougou.search.service.BaseService;
+import com.pinyougou.service.BaseService;
 import com.pinyougou.vo.Goods;
 import com.pinyougou.vo.PageResult;
 
