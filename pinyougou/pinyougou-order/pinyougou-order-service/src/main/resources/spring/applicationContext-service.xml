@@ -16,4 +16,10 @@ http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
     <!--扫描使用了阿里的服务注解的包路径并对这些类进行注册到注册中心-->
     <dubbo:annotation package="com.pinyougou.order.service.impl"/>
 
+    <bean id="idWorker" class="com.pinyougou.common.util.IdWorker">
+        <!--工作机器ID-->
+        <constructor-arg name="workerId" value="0"/>
+        <!--序列号-->
+        <constructor-arg name="datacenterId" value="0"/>
+    </bean>
 </beans>
