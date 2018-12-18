@@ -2,26 +2,16 @@
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">  
   <parent> 
-    <artifactId>pinyougou</artifactId>  
+    <artifactId>pinyougou-order</artifactId>  
     <groupId>com.pinyougou</groupId>  
     <version>1.0-SNAPSHOT</version> 
   </parent>  
   <modelVersion>4.0.0</modelVersion>  
   <groupId>com.pinyougou</groupId>  
-  <artifactId>pinyougou-cart-web</artifactId>
+  <artifactId>pinyougou-order-service</artifactId>
   <packaging>war</packaging>
 
   <dependencies>
-    <dependency>
-      <groupId>com.pinyougou</groupId>
-      <artifactId>pinyougou-cart-interface</artifactId>
-      <version>1.0-SNAPSHOT</version>
-    </dependency>
-    <dependency>
-      <groupId>com.pinyougou</groupId>
-      <artifactId>pinyougou-user-interface</artifactId>
-      <version>1.0-SNAPSHOT</version>
-    </dependency>
     <dependency>
       <groupId>com.pinyougou</groupId>
       <artifactId>pinyougou-order-interface</artifactId>
@@ -29,16 +19,24 @@
     </dependency>
     <dependency>
       <groupId>com.pinyougou</groupId>
-      <artifactId>pinyougou-common</artifactId>
+      <artifactId>pinyougou-dao</artifactId>
       <version>1.0-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.springframework</groupId>
-      <artifactId>spring-webmvc</artifactId>
+      <artifactId>spring-beans</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-log4j12</artifactId>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-context</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-web</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-aspects</artifactId>
     </dependency>
     <!-- dubbo 相关  -->
     <dependency>
@@ -53,41 +51,15 @@
       <groupId>com.github.sgroschupf</groupId>
       <artifactId>zkclient</artifactId>
     </dependency>
-    <!-- json 的解析  -->
     <dependency>
       <groupId>com.alibaba</groupId>
       <artifactId>fastjson</artifactId>
     </dependency>
     <dependency>
-      <groupId>javax.servlet</groupId>
-      <artifactId>servlet-api</artifactId>
-      <scope>provided</scope>
+      <groupId>com.pinyougou</groupId>
+      <artifactId>pinyougou-common</artifactId>
+      <version>1.0-SNAPSHOT</version>
     </dependency>
-    <dependency>
-      <groupId>org.springframework.security</groupId>
-      <artifactId>spring-security-web</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework.security</groupId>
-      <artifactId>spring-security-config</artifactId>
-    </dependency>
-    <!-- cas -->
-    <dependency>
-      <groupId>org.springframework.security</groupId>
-      <artifactId>spring-security-cas</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.jasig.cas.client</groupId>
-      <artifactId>cas-client-core</artifactId>
-      <!--  排除 log4j 包冲突  -->
-      <exclusions>
-        <exclusion>
-          <groupId>org.slf4j</groupId>
-          <artifactId>log4j-over-slf4j</artifactId>
-        </exclusion>
-      </exclusions>
-    </dependency>
-
   </dependencies>
   <build>
     <plugins>
@@ -97,7 +69,7 @@
         <artifactId>tomcat7-maven-plugin</artifactId>
         <configuration>
           <path>/</path>
-          <port>9107</port>
+          <port>9006</port>
         </configuration>
       </plugin>
     </plugins>

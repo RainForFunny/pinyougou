@@ -39,9 +39,9 @@ public class UserServiceImpl extends BaseServiceImpl<TbUser> implements UserServ
     @Autowired
     private ActiveMQQueue itcastSmsQueue;
 
-    @Value("黑马")
+    @Value("${signName}")
     private String signName;
-    @Value("SMS_125018593")
+    @Value("${templateCode}")
     private String templateCode;
 
     @Override
