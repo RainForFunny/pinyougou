@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>qrious -demo</title>
+    <script src="plugins/qrious.min.js"></script>
+</head>
+<body>
+<img id="qrious"/>
+<script>
+    var qr = new QRious({
+        //指定哪个元素
+        element:document.getElementById("qrious"),
+        //大小
+        size:250,
+        //容错级别
+        level:"H",
+        //值
+        value:"nmsl"
+    });
+</script>
+</body>
+</html>
