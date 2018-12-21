@@ -17,13 +17,14 @@ public class Result implements Serializable {
         this.message = message;
     }
 
-    public static Result ok(String message){
-        return new Result(true,message);
+    public static Result ok(String message) {
+        return new Result(true, message);
     }
 
-    public static Result fail(String message){
-        return new Result(false,message);
+    public static Result fail(String message) {
+        return new Result(false, message);
     }
+
     public Boolean getSuccess() {
         return success;
     }

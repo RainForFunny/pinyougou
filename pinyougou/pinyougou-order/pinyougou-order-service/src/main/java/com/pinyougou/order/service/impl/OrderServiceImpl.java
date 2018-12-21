@@ -16,11 +16,11 @@ import com.pinyougou.vo.Cart;
 import com.pinyougou.vo.PageResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.util.StringUtils;
 import tk.mybatis.mapper.entity.Example;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -136,5 +136,32 @@ public class OrderServiceImpl extends BaseServiceImpl<TbOrder> implements OrderS
         redisTemplate.boundHashOps(REDIS_CART_LIST).delete(order.getUserId());
         //6. 返回支付日志id
         return outTradeNo;
+    }
+
+    @Override
+    public TbPayLog findPayLogById(String outTradeNo) {
+        return payLogMapper.selectByPrimaryKey(outTradeNo);
+    }
+
+    @Override
+    public void updateOrderStatus(String outTradeNo, String transaction_id) {
+        TbPayLog payLog = findPayLogById(outTradeNo);
+        //更新支付状态为已支付
+        payLog.setTransactionId(transaction_id);
+        payLog.setPayTime(new Date());
+        payLog.setTradeState("1");
+        payLogMapper.updateByPrimaryKeySelective(payLog);
+
+        //更新支付日志id对应的订单的支付状态为已支付
+        String[] orderIds = payLog.getOrderList().split(",");
+        //update tb_order set status = '2' where order_id  in(?,?)
+        TbOrder order = new TbOrder();
+        order.setStatus("2");
+        Example example = new Example(TbOrder.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andIn("orderId", Arrays.asList(orderIds));
+
+        System.out.println("orderStatus= ---------------------"+order.getStatus());
+        orderMapper.updateByExampleSelective(order,example);
     }
 }

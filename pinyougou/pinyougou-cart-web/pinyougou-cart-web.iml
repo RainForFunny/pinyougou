@@ -55,6 +55,7 @@
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-core:2.6.7" level="project" />
     <orderEntry type="module" module-name="pinyougou-user-interface" />
     <orderEntry type="module" module-name="pinyougou-order-interface" />
+    <orderEntry type="module" module-name="pinyougou-pay-interface" />
     <orderEntry type="module" module-name="pinyougou-common" />
     <orderEntry type="module" module-name="itcast.fastdfs_client" />
     <orderEntry type="library" name="Maven: redis.clients:jedis:2.9.0" level="project" />
